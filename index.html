@@ -8,21 +8,21 @@
   <span id="platform">Unknown platform!</span> <br />
   <span id="final-result">Tests still running...</span> <br /> <br />
   <span id="lodash">running…</span></br />
-  <span id="lodash-escaped">running…</span></br />
-  <span id="lodash-async">running…</span></br />
-  <span id="lodash-async-escaped">running…</span></br />
-  <span id="lodash-obj">running…</span></br />
-  <span id="lodash-obj-escaped">running…</span></br />
-  <span id="lodash-obj-async">running…</span></br />
-  <span id="lodash-obj-async-escaped">running…</span></br />
+  <span id="lodashEscaped">running…</span></br />
+  <span id="lodashAsync">running…</span></br />
+  <span id="lodashAsyncEscaped">running…</span></br />
+  <span id="lodashObj">running…</span></br />
+  <span id="lodashObjEscaped">running…</span></br />
+  <span id="lodashObjAsync">running…</span></br />
+  <span id="lodashObjAsyncEscaped">running…</span></br />
   <span id="underscore">running…</span></br />
-  <span id="underscore-escaped">running…</span></br />
-  <span id="underscore-async">running…</span></br />
-  <span id="underscore-async-escaped">running…</span></br />
-  <span id="underscore-obj">running…</span></br />
-  <span id="underscore-obj-escaped">running…</span></br />
-  <span id="underscore-obj-async">running…</span></br />
-  <span id="underscore-obj-async-escaped">running…</span></br />
+  <span id="underscoreEscaped">running…</span></br />
+  <span id="underscoreAsync">running…</span></br />
+  <span id="underscoreAsyncEscaped">running…</span></br />
+  <span id="underscoreObj">running…</span></br />
+  <span id="underscoreObjEscaped">running…</span></br />
+  <span id="underscoreObjAsync">running…</span></br />
+  <span id="underscoreObjAsyncEscaped">running…</span></br />
 
   <script src="js/underscore.js"></script>
   <script type="text/javascript">
@@ -42,7 +42,7 @@
 
   function doBenchmark( name, library, ifObj, ifAsync, ifEscaped ) {
     var bench = new Benchmark( function () {
-        var compiled = library.template( "random:"  
+e        var compiled = library.template( "random:"  
                        + ( ifEscaped ? "<b><%- " : "<%=" )
                        + ( ifObj     ? "obj." : "" )
                        + "number %>!"
@@ -52,11 +52,13 @@
     );
     bench.cycles = 1000;
     spanname = name 
-		+ ( ifObj     ? "-obj" : "" )
-		+ ( ifAsync   ? "-async" : "" )
-		+ ( ifEscaped ? "-escaped" : "" );
+		+ ( ifObj     ? "Obj" : "" )
+		+ ( ifAsync   ? "Async" : "" )
+		+ ( ifEscaped ? "Escaped" : "" );
     bench.on( "error", function() {
+        document.getElementById(spanname).innerHTML = spanname + " failed!";
 	console.log(spanname + " failed!");
+        document.getElementById( "final-result" ).innerHTML = "<b>One or more test failed!</b>";	
    });
     bench.on( "complete", function() {
       str = spanname 
@@ -75,6 +77,11 @@
     else
        bench.run( { 'async': false } )
   }
+  document.getElementById( "platform" ).innerHTML = "Browser: " 
+			+ platform.name + " " 
+			+ platform.version 
+			+ " (" + platform.layout + ")" 
+			+ "<br />" + platform.os;
   doBenchmark( "lodash", _, false, false, false ); // 000
   doBenchmark( "lodash", _, false, false, true  ); // 001
   doBenchmark( "lodash", _, false, true,  false ); // 010
@@ -91,11 +98,6 @@
   doBenchmark( "underscore", _underscore, true,  false, true  ); // 101
   doBenchmark( "underscore", _underscore, true,  true,  false ); // 110
   doBenchmark( "underscore", _underscore, true,  true,  true  ); // 111
-  document.getElementById( "platform" ).innerHTML = "Browser: " 
-			+ platform.name + " " 
-			+ platform.version 
-			+ " (" + platform.layout + ")" 
-			+ "<br />" + platform.os;
 
   </script>
 </body>
