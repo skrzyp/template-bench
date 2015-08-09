@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <title>Test Benchmark</title>
+   <meta charset="UTF-8" />
+</head>
+<body>
+  <span id="platform">Unknown platform!</span> <br />
+  <span id="final-result">Tests still running...</span> <br /> <br />
+  Lodash (async): <span id="lodash-async-result">running...</span> <br />
+  Lodash w/ obj. (async): <span id="lodash-obj-async-result">running...</span> <br />
+  Underscore (async): <span id="underscore-async-result">running...</span> <br />
+  Underscore w/ obj, (async): <span id="underscore-obj-async-result">running...</span> <br />
+  Lodash: <span id="lodash-result">running...</span> <br />
+  Lodash w/ obj.: <span id="lodash-obj-result">running...</span> <br />
+  Underscore: <span id="underscore-result">running...</span> <br />
+  Underscore w/ obj.: <span id="underscore-obj-result">running...</span>
+
+
+  <script src="js/underscore.js"></script>
+  <script type="text/javascript">
+    // release _ for lodash ( which is also needed by benchmark.js )
+    _underscore = _.noConflict()
+  </script>
+  <script src="js/lodash.js"></script>
+  <script src="js/platform.js"></script>
+  <script src="js/benchmark.js"></script>
+
+
+
+
+  <script type="text/javascript">
+
+  function lodashTest() {
+    var compiled = _.template("random: <%= number %>!");
+    compiled( { "number": Math.random() } );
+  };
+
+  function underscoreTest() {
+    var compiled = _underscore.template("random: <%= number %>");
+    compiled( { "number": Math.random() } );
+  }
+
+  var cntr = 4;
+
+  function doBenchmark( name, library, ifObj, ifAsync ) {
+    var bench = new Benchmark( function () {
+        var compiled = library.template( "random: <%= " + ( ifObj ? "obj." : "" ) + "number %>!" );
+        compiled( { "number": Math.random() } );
+      }
+    );
+    bench.cycles = 1000;
+    bench.on( "complete", function() {
+      str = "Tests taken: " + this.count + " Time elapsed: " + this.times.elapsed + " Cycles: " + this.cycles;
+      document.getElementById( name + ( ifObj ? "-obj" : "" ) + ( ifAsync ? "-async" : "" ) + "-result" ).innerHTML = str;
+      cntr--;
+      if ( cntr == 0 )
+        document.getElementById( "final-result" ).innerHTML = "Tests finished!";
+    })
+    if ( ifAsync == true )
+       bench.run( { 'async': true } )
+    else
+       bench.run( { 'async': false } )
+  }
+  doBenchmark( "lodash", _, false, true );
+  doBenchmark( "lodash", _, true, true );
+  doBenchmark( "underscore", _underscore, false, true );
+  doBenchmark( "underscore", _underscore, true, true );
+  doBenchmark( "lodash", _, false, false );
+  doBenchmark( "lodash", _, true, false );
+  doBenchmark( "underscore", _underscore, false, false );
+  doBenchmark( "underscore", _underscore, true, false );
+  document.getElementById( "platform" ).innerHTML = "Browser: " + platform.name + " " + platform.version + " (" + platform.layout + ")" + "<br />" + platform.os;
+
+  </script>
+</body>
+</html>
