@@ -42,7 +42,7 @@
 
   function doBenchmark( name, library, ifObj, ifAsync, ifEscaped ) {
     var bench = new Benchmark( function () {
-e        var compiled = library.template( "random:"  
+        var compiled = library.template( "random:"  
                        + ( ifEscaped ? "<b><%- " : "<%=" )
                        + ( ifObj     ? "obj." : "" )
                        + "number %>!"
@@ -50,7 +50,7 @@ e        var compiled = library.template( "random:"
         compiled( { "number": Math.random() } );
       }
     );
-    bench.cycles = 1000;
+    // bench.cycles = 1000;
     spanname = name 
 		+ ( ifObj     ? "Obj" : "" )
 		+ ( ifAsync   ? "Async" : "" )
