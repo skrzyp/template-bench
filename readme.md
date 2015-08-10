@@ -1,3 +1,7 @@
+`template-bench` - simple test unit for underscore's and loadsh's `._template` function.
+It tests standard template function, additionaly with arguments as objects (Obj unit) and HTML-escaped (Escaped unit)
+**NOTE**: This test is resource-hungry, your browser might stop responding or whine about unresponsive scripts!
+
 Results
 -------
 
