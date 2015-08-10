@@ -45,7 +45,7 @@
         // defer: true,
         fn: function(deferred) {
         if (library == nunjucks) {
-           var compiled = library.renderString( "random: {{"  
+           var compiled = nunjucks.renderString( "random: {{"  
                        + ( ifObj     ? "obj." : "" )
                        + "r_number"
                        + ( ifEscaped ? " | escape }}" : " }}" ), { r_number: number });
@@ -75,6 +75,7 @@
 		+ " count: "          + this.count 
 		+ " elapsed: "        + this.times.elapsed 
 		+ " time per cycle: " + this.times.period  
+		+ " ops per second: " + this.hz
 		+ " cycles: "         + this.cycles;
       document.getElementById(spanname).innerHTML = str;
       cntr--;
