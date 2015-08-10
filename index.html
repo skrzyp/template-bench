@@ -18,7 +18,11 @@
   <span id="underscore">running…</span><br />
   <span id="underscore-escaped">running…</span><br />
   <span id="underscore-obj">running…</span><br />
-  <span id="underscore-obj-escaped">running…</span></br />
+  <span id="underscore-obj-escaped">running…</span></br /> <br />
+  <span id="nunjucks">running…</span><br />
+  <span id="nunjucks-escaped">running…</span><br />
+  <span id="nunjucks-obj">running…</span><br />
+  <span id="nunjucks-obj-escaped">running…</span></br />
 
   <script src="js/underscore.js"></script>
   <script type="text/javascript">
@@ -31,20 +35,30 @@
   <script src="js/lodash-modern.js"></script>
   <script src="js/platform.js"></script>
   <script src="js/benchmark.js"></script>
+  <script src="js/nunjucks.js"></script>
   <script type="text/javascript">
 
   var cntr = 12;
-
+  nunjucks.configure({ autoescape: false });
   function doBenchmark( name, library, ifObj, ifEscaped ) {
     var bench = new Benchmark( { 
         // defer: true,
         fn: function(deferred) {
-        var compiled = library.template( "random:"  
+        if (library == nunjucks) {
+           var compiled = library.renderString( "random: {{"  
+                       + ( ifObj     ? "obj." : "" )
+                       + "r_number"
+                       + ( ifEscaped ? " | escape }}" : " }}" ), { r_number: number });
+           compiled( { "number": Math.random() } );
+        }
+        else {
+           var compiled = library.template( "random: "  
                        + ( ifEscaped ? "<b><%- " : "<%=" )
                        + ( ifObj     ? "obj." : "" )
                        + "number %>!"
                        + ( ifEscaped ? "</b>" : "" ) );
-        compiled( { "number": Math.random() } );
+           compiled( { "number": Math.random() } );
+        }
 	// deferred.resolve();
       }
     });
@@ -86,6 +100,10 @@
   setTimeout(function(){ doBenchmark( "underscore", _underscore, false, true  ); }, 0); // 01
   setTimeout(function(){ doBenchmark( "underscore", _underscore, true,  false ); }, 0); // 10
   setTimeout(function(){ doBenchmark( "underscore", _underscore, true,  true  ); }, 0); // 11
+  setTimeout(function(){ doBenchmark( "nunjucks", nunjucks, false, false ); }, 0); // 00
+  setTimeout(function(){ doBenchmark( "nunjucks", nunjucks, false, true  ); }, 0); // 01
+  setTimeout(function(){ doBenchmark( "nunjucks", nunjucks, true,  false ); }, 0); // 10
+  setTimeout(function(){ doBenchmark( "nunjucks", nunjucks, true,  true  ); }, 0); // 11
 
   </script>
 </body>
