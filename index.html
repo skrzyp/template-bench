@@ -51,7 +51,6 @@
 		+ ( ifEscaped ? "Escaped" : "" );
     bench.on( "error", function() {
         document.getElementById(spanname).innerHTML = spanname + " failed!";
-	console.log(spanname + " failed!");
         document.getElementById( "final-result" ).innerHTML = "<b>One or more test failed!</b>";	
    });
     bench.on( "complete", function() {
@@ -60,7 +59,6 @@
 		+ " elapsed: "        + this.times.elapsed 
 		+ " time per cycle: " + this.times.period  
 		+ " cycles: "         + this.cycles;
-      console.log(spanname + " done!");
       document.getElementById(spanname).innerHTML = str;
       cntr--;
       if ( cntr == 0 )
