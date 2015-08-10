@@ -48,8 +48,8 @@
            var compiled = nunjucks.renderString( "random: {{"  
                        + ( ifObj     ? "obj." : "" )
                        + "r_number"
-                       + ( ifEscaped ? " | escape }}" : " }}" ), { r_number: number });
-           compiled( { "number": Math.random() } );
+                       + ( ifEscaped ? " | escape }}" : " }}" ), { r_number: Math.random() });
+        // compiled( { "number": Math.random() } );
         }
         else {
            var compiled = library.template( "random: "  
