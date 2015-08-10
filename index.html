@@ -9,20 +9,12 @@
   <span id="final-result">Tests still running...</span> <br /> <br />
   <span id="lodash">running…</span></br />
   <span id="lodashEscaped">running…</span></br />
-  <span id="lodashAsync">running…</span></br />
-  <span id="lodashAsyncEscaped">running…</span></br />
   <span id="lodashObj">running…</span></br />
   <span id="lodashObjEscaped">running…</span></br />
-  <span id="lodashObjAsync">running…</span></br />
-  <span id="lodashObjAsyncEscaped">running…</span></br />
   <span id="underscore">running…</span></br />
   <span id="underscoreEscaped">running…</span></br />
-  <span id="underscoreAsync">running…</span></br />
-  <span id="underscoreAsyncEscaped">running…</span></br />
   <span id="underscoreObj">running…</span></br />
   <span id="underscoreObjEscaped">running…</span></br />
-  <span id="underscoreObjAsync">running…</span></br />
-  <span id="underscoreObjAsyncEscaped">running…</span></br />
 
   <script src="js/underscore.js"></script>
   <script type="text/javascript">
@@ -38,22 +30,24 @@
 
   <script type="text/javascript">
 
-  var cntr = 16;
+  var cntr = 8;
 
-  function doBenchmark( name, library, ifObj, ifAsync, ifEscaped ) {
-    var bench = new Benchmark( function () {
+  function doBenchmark( name, library, ifObj, ifEscaped ) {
+    var bench = new Benchmark( { 
+        // defer: true,
+        fn: function(deferred) {
         var compiled = library.template( "random:"  
                        + ( ifEscaped ? "<b><%- " : "<%=" )
                        + ( ifObj     ? "obj." : "" )
                        + "number %>!"
                        + ( ifEscaped ? "</b>" : "" ) );
         compiled( { "number": Math.random() } );
+	// deferred.resolve();
       }
-    );
+    });
     // bench.cycles = 1000;
     spanname = name 
 		+ ( ifObj     ? "Obj" : "" )
-		+ ( ifAsync   ? "Async" : "" )
 		+ ( ifEscaped ? "Escaped" : "" );
     bench.on( "error", function() {
         document.getElementById(spanname).innerHTML = spanname + " failed!";
@@ -72,32 +66,21 @@
       if ( cntr == 0 )
         document.getElementById( "final-result" ).innerHTML = "Tests finished!";
     })
-    if ( ifAsync == true )
-       bench.run( { 'async': true } )
-    else
-       bench.run( { 'async': false } )
+    bench.run( { 'async': false } )
   }
   document.getElementById( "platform" ).innerHTML = "Browser: " 
 			+ platform.name + " " 
 			+ platform.version 
 			+ " (" + platform.layout + ")" 
 			+ "<br />" + platform.os;
-  doBenchmark( "lodash", _, false, false, false ); // 000
-  doBenchmark( "lodash", _, false, false, true  ); // 001
-  doBenchmark( "lodash", _, false, true,  false ); // 010
-  doBenchmark( "lodash", _, false, true,  true  ); // 011
-  doBenchmark( "lodash", _, true,  false, false ); // 100
-  doBenchmark( "lodash", _, true,  false, true  ); // 101
-  doBenchmark( "lodash", _, true,  true,  false ); // 110
-  doBenchmark( "lodash", _, true,  true,  true  ); // 111
-  doBenchmark( "underscore", _underscore, false, false, false ); // 000
-  doBenchmark( "underscore", _underscore, false, false, true  ); // 001
-  doBenchmark( "underscore", _underscore, false, true,  false ); // 010
-  doBenchmark( "underscore", _underscore, false, true,  true  ); // 011
-  doBenchmark( "underscore", _underscore, true,  false, false ); // 100
-  doBenchmark( "underscore", _underscore, true,  false, true  ); // 101
-  doBenchmark( "underscore", _underscore, true,  true,  false ); // 110
-  doBenchmark( "underscore", _underscore, true,  true,  true  ); // 111
+  doBenchmark( "lodash", _, false, false ); // 00
+  doBenchmark( "lodash", _, false, true  ); // 01
+  doBenchmark( "lodash", _, true,  false ); // 10
+  doBenchmark( "lodash", _, true,  true  ); // 11
+  doBenchmark( "underscore", _underscore, false, false ); // 00
+  doBenchmark( "underscore", _underscore, false, true  ); // 01
+  doBenchmark( "underscore", _underscore, true,  false ); // 10
+  doBenchmark( "underscore", _underscore, true,  true  ); // 11
 
   </script>
 </body>
