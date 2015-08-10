@@ -71,14 +71,14 @@
 			+ platform.version 
 			+ " (" + platform.layout + ")" 
 			+ "<br />" + platform.os;
-  doBenchmark( "lodash", _, false, false ); // 00
-  doBenchmark( "lodash", _, false, true  ); // 01
-  doBenchmark( "lodash", _, true,  false ); // 10
-  doBenchmark( "lodash", _, true,  true  ); // 11
-  doBenchmark( "underscore", _underscore, false, false ); // 00
-  doBenchmark( "underscore", _underscore, false, true  ); // 01
-  doBenchmark( "underscore", _underscore, true,  false ); // 10
-  doBenchmark( "underscore", _underscore, true,  true  ); // 11
+  setTimeout(function(){ doBenchmark( "lodash", _, false, false ); }, 0); // 00
+  setTimeout(function(){ doBenchmark( "lodash", _, false, true  ); }, 0); // 01
+  setTimeout(function(){ doBenchmark( "lodash", _, true,  false ); }, 0); // 10
+  setTimeout(function(){ doBenchmark( "lodash", _, true,  true  ); }, 0); // 11
+  setTimeout(function(){ doBenchmark( "underscore", _underscore, false, false ); }, 0); // 00
+  setTimeout(function(){ doBenchmark( "underscore", _underscore, false, true  ); }, 0); // 01
+  setTimeout(function(){ doBenchmark( "underscore", _underscore, true,  false ); }, 0); // 10
+  setTimeout(function(){ doBenchmark( "underscore", _underscore, true,  true  ); }, 0); // 11
 
   </script>
 </body>
