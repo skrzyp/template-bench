@@ -7,30 +7,33 @@
 <body>
   <span id="platform">Unknown platform!</span> <br />
   <span id="final-result">Tests still running...</span> <br /> <br />
-  <span id="lodash">running…</span></br />
-  <span id="lodashEscaped">running…</span></br />
-  <span id="lodashObj">running…</span></br />
-  <span id="lodashObjEscaped">running…</span></br />
-  <span id="underscore">running…</span></br />
-  <span id="underscoreEscaped">running…</span></br />
-  <span id="underscoreObj">running…</span></br />
-  <span id="underscoreObjEscaped">running…</span></br />
+  <span id="lodash-compat">running…</span><br />
+  <span id="lodash-compat-escaped">running…</span><br />
+  <span id="lodash-compat-obj">running…</span><br />
+  <span id="lodash-compat-obj-escaped">running…</span><br /> <br />
+  <span id="lodash-modern">running…</span><br />
+  <span id="lodash-modern-escaped">running…</span><br />
+  <span id="lodash-modern-obj">running…</span><br />
+  <span id="lodash-modern-obj-escaped">running…</span><br /> <br />
+  <span id="underscore">running…</span><br />
+  <span id="underscore-escaped">running…</span><br />
+  <span id="underscore-obj">running…</span><br />
+  <span id="underscore-obj-escaped">running…</span></br />
 
   <script src="js/underscore.js"></script>
   <script type="text/javascript">
-    // release _ for lodash ( which is also needed by benchmark.js )
     _underscore = _.noConflict()
   </script>
-  <script src="js/lodash.js"></script>
+  <script src="js/lodash-compat.js"></script>
+  <script type="text/javascript">
+    _lodashCompat = _.noConflict()
+  </script>
+  <script src="js/lodash-modern.js"></script>
   <script src="js/platform.js"></script>
   <script src="js/benchmark.js"></script>
-
-
-
-
   <script type="text/javascript">
 
-  var cntr = 8;
+  var cntr = 12;
 
   function doBenchmark( name, library, ifObj, ifEscaped ) {
     var bench = new Benchmark( { 
@@ -47,8 +50,8 @@
     });
     // bench.cycles = 1000;
     spanname = name 
-		+ ( ifObj     ? "Obj" : "" )
-		+ ( ifEscaped ? "Escaped" : "" );
+		+ ( ifObj     ? "-obj" : "" )
+		+ ( ifEscaped ? "-escaped" : "" );
     bench.on( "error", function() {
         document.getElementById(spanname).innerHTML = spanname + " failed!";
         document.getElementById( "final-result" ).innerHTML = "<b>One or more test failed!</b>";	
@@ -71,10 +74,14 @@
 			+ platform.version 
 			+ " (" + platform.layout + ")" 
 			+ "<br />" + platform.os;
-  setTimeout(function(){ doBenchmark( "lodash", _, false, false ); }, 0); // 00
-  setTimeout(function(){ doBenchmark( "lodash", _, false, true  ); }, 0); // 01
-  setTimeout(function(){ doBenchmark( "lodash", _, true,  false ); }, 0); // 10
-  setTimeout(function(){ doBenchmark( "lodash", _, true,  true  ); }, 0); // 11
+  setTimeout(function(){ doBenchmark( "lodash-compat", _lodashCompat, false, false ); }, 0); // 00
+  setTimeout(function(){ doBenchmark( "lodash-compat", _lodashCompat, false, true  ); }, 0); // 01
+  setTimeout(function(){ doBenchmark( "lodash-compat", _lodashCompat, true,  false ); }, 0); // 10
+  setTimeout(function(){ doBenchmark( "lodash-compat", _lodashCompat, true,  true  ); }, 0); // 11
+  setTimeout(function(){ doBenchmark( "lodash-modern", _, false, false ); }, 0); // 00
+  setTimeout(function(){ doBenchmark( "lodash-modern", _, false, true  ); }, 0); // 01
+  setTimeout(function(){ doBenchmark( "lodash-modern", _, true,  false ); }, 0); // 10
+  setTimeout(function(){ doBenchmark( "lodash-modern", _, true,  true  ); }, 0); // 11
   setTimeout(function(){ doBenchmark( "underscore", _underscore, false, false ); }, 0); // 00
   setTimeout(function(){ doBenchmark( "underscore", _underscore, false, true  ); }, 0); // 01
   setTimeout(function(){ doBenchmark( "underscore", _underscore, true,  false ); }, 0); // 10
